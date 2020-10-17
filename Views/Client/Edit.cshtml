@@ -1,0 +1,291 @@
+﻿@model Company.Models.Client
+
+@{
+    ViewData["Title"] = "Editar";
+}
+
+<div class="container body-content">
+    <form id="form" class="mt-3" asp-action="Edit">
+        <div class="row mx-auto">
+            <div class="form-group col-md-6 col-lg-5">
+                <label for="company_name" class="font-weight-bold">Razão Social</label>
+                <span class="text-danger">*</span>
+                <input asp-for="company_name" id="company_name" type="text" class="form-control text-capitalize" placeholder="Razão Social" onblur="isValid()" onkeypress="return lettersOnly(event);" required />
+                <span asp-validation-for="company_name" class="text-danger error" style="display: none;"></span>
+            </div>
+
+            <div class="form-group col-md-6 col-lg-5">
+                <label for="fantasy_name" class="font-weight-bold">Nome Fantasia</label>
+                <span class="text-danger">*</span>
+                <input asp-for="fantasy_name" id="fantasy_name" type="text" class="form-control text-capitalize" placeholder="Nome Fantasia" onblur="isValid()" onkeypress="return lettersOnly(event);" required />
+                <span asp-validation-for="fantasy_name" class="text-danger error" style="display: none;"></span>
+            </div>
+
+            <div class="w-100 d-none d-md-block"></div>
+
+            <div class="form-group col-md-6 col-lg-auto">
+                <label for="cnpj" class="font-weight-bold">CNPJ</label>
+                <span class="text-danger">*</span>
+                <input asp-for="cnpj" id="cnpj" type="text" class="form-control col-md-12 mr-4" placeholder="00.000.000.0000/00" onblur="getCNPJ()" onKeyPress="return numberOnly(event)" required />
+                <span asp-validation-for="cnpj" class="text-danger error" style="display: none;"></span>
+            </div>
+
+            <div class="form-group col-md-6 col-lg-auto">
+                <label for="foundation_date" class="font-weight-bold">Data de Fundação</label>
+                <span class="text-danger">*</span>
+                <input asp-for="foundation_date" id="foundation_date" type="date" class="form-control col-md-12" onblur="isValid()" required />
+                <span asp-validation-for="foundation_date" class="text-danger error" style="display: none;"></span>
+            </div>
+
+            <div class="form-group col-md-6 col-lg-3">
+                <label for="manager" class="font-weight-bold">Responsável</label>
+                <span class="text-danger">*</span>
+                <input asp-for="manager" id="manager" type="text" class="form-control text-capitalize" placeholder="Responsável" onblur="isValid()" onkeypress="return lettersOnly(event);" required />
+                <span asp-validation-for="manager" class="text-danger error" style="display: none;"></span>
+            </div>
+
+            <div class="form-group col-md-6 col-lg-2">
+                <label for="phone" class="font-weight-bold">Telefone</label>
+                <span class="text-danger">*</span>
+                <input asp-for="phone" id="phone" type="tel" class="form-control" placeholder="(DDD) 0000-0000" onblur="isValid()" onKeyPress="return numberOnly(event)" required />
+                <span asp-validation-for="phone" class="text-danger error" style="display: none;"></span>
+            </div>
+
+            <div class="w-100 d-none d-md-block"></div>
+
+            <div class="form-group col-md-6 col-lg-5">
+                <label for="email" class="font-weight-bold">E-mail</label>
+                <span class="text-danger">*</span>
+                <input asp-for="email" id="email" type="email" class="form-control text-lowercase" placeholder="exemplo@exemplo.com" onblur="isValid()" required />
+                <span asp-validation-for="email" class="text-danger error" style="display: none;"></span>
+            </div>
+
+            <div class="form-group col-md-6 col-lg-5">
+                <label for="website" class="font-weight-bold">Website</label>
+                <input asp-for="website" id="website" type="url" class="form-control text-lowercase" placeholder="www.exemplo.com.br" />
+            </div>
+
+            <div class="w-100 d-none d-md-block"></div>
+
+            <div class="form-group col-md-6 col-lg-5">
+                <label for="address" class="font-weight-bold">Endereço</label>
+                <span class="text-danger">*</span>
+                <input asp-for="address" id="address" type="text" class="form-control text-capitalize" placeholder="Endereço" onblur="isValid()" onkeypress="return lettersOnly(event);" required />
+                <span asp-validation-for="address" class="text-danger error" style="display: none;"></span>
+            </div>
+
+            <div class="form-group col-md-2">
+                <label for="address_number" class="font-weight-bold">Número</label>
+                <span class="text-danger">*</span>
+                <input asp-for="address_number" id="address_number" type="text" class="form-control" placeholder="0000" onblur="isValid()" onKeyPress="return numberOnly(event)" required />
+                <span asp-validation-for="address_number" class="text-danger error" style="display: none;"></span>
+            </div>
+
+            <div class="form-group col-md-4 col-lg-3">
+                <label for="complement" class="font-weight-bold">Complemento</label>
+                <input asp-for="complement" id="complement" type="text" class="form-control text-capitalize" placeholder="Complemento" />
+            </div>
+
+            <div class="w-100 d-none d-md-block"></div>
+
+            <div class="form-group col-md-3 col-lg-2">
+                <label for="cep" class="font-weight-bold">CEP</label>
+                <span class="text-danger">*</span>
+                <input asp-for="cep" id="cep" type="text" class="form-control" placeholder="00000-000" onblur="getCEP()" onKeyPress="return numberOnly(event)" required />
+                <span asp-validation-for="cep" class="text-danger error" style="display: none;"></span>
+                <span id="cep_error" class="text-danger error" style="display: none;"></span>
+            </div>
+
+            <div class="form-group col-md-3">
+                <label for="neighborhood" class="font-weight-bold">Bairro</label>
+                <span class="text-danger">*</span>
+                <input asp-for="neighborhood" id="neighborhood" type="text" class="form-control text-capitalize" placeholder="Bairro" onblur="isValid()" onkeypress="return lettersOnly(event);" required />
+                <span asp-validation-for="neighborhood" class="text-danger error" style="display: none;"></span>
+            </div>
+
+            <div class="form-group col-md-3 col-lg-2">
+                <label for="state" class="font-weight-bold">Estado</label>
+                <span class="text-danger">*</span>
+                <select asp-for="state" id="state" class="form-control" onblur="isValid()" required>
+                    <option value="00" selected disabled>Selecionar</option>
+                    <option value="AC">Acre</option>
+                    <option value="AL">Alagoas</option>
+                    <option value="AP">Amapá</option>
+                    <option value="AM">Amazonas</option>
+                    <option value="BA">Bahia</option>
+                    <option value="CE">Ceará</option>
+                    <option value="DF">Distrito Federal</option>
+                    <option value="ES">Espirito Santo</option>
+                    <option value="GO">Goiás</option>
+                    <option value="MA">Maranhão</option>
+                    <option value="MS">Mato Grosso do Sul</option>
+                    <option value="MT">Mato Grosso</option>
+                    <option value="MG">Minas Gerais</option>
+                    <option value="PA">Pará</option>
+                    <option value="PB">Paraíba</option>
+                    <option value="PR">Paraná</option>
+                    <option value="PE">Pernambuco</option>
+                    <option value="PI">Piauí</option>
+                    <option value="RJ">Rio de Janeiro</option>
+                    <option value="RN">Rio Grande do Norte</option>
+                    <option value="RS">Rio Grande do Sul</option>
+                    <option value="RO">Rondônia</option>
+                    <option value="RR">Roraima</option>
+                    <option value="SC">Santa Catarina</option>
+                    <option value="SP">São Paulo</option>
+                    <option value="SE">Sergipe</option>
+                    <option value="TO">Tocantins</option>
+                </select>
+                <span asp-validation-for="state" class="text-danger error" style="display: none;"></span>
+            </div>
+
+            <div class="form-group col-md-3">
+                <label for="city" class="font-weight-bold">Cidade</label>
+                <span class="text-danger">*</span>
+                <input asp-for="city" id="city" type="text" class="form-control text-capitalize" placeholder="Cidade" onblur="isValid()" onkeypress="return lettersOnly(event);" required />
+                <span asp-validation-for="city" class="text-danger error" style="display: none;"></span>
+            </div>
+
+            <div class="row col-md-5 col-lg-3 mt-3 mb-3 ml-0">
+                <input id="save" type="submit" value="Salvar" class="btn btn-outline-success mr-2" />
+                <input id="remove" asp-action="Delete" type="submit" value="Apagar" class="btn btn-outline-danger mr-2" />
+                <input type="hidden" asp-for="id" />
+                <a asp-action="Index" class="btn btn-outline-info">Voltar</a>
+            </div>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        // adicionando mascaras
+        $("#cnpj").mask("99.999.999/9999-99");
+        $("#phone").mask("(99) 9999-9999");
+        $("#cep").mask("99999-999");
+
+        // data máxima será a data atual
+        foundation_date.max = new Date().toISOString().split("T")[0];
+
+        // salvar cadastro
+        $("#save").click(function () {
+            //var cnpj = $("#cnpj").val();
+            //var phone = $("#phone").val();
+            //var cep = $("#cep").val();
+
+            if (isEmpty($("#company_name").val() && $("#fantasy_name").val() && cnpj && $("#foundation_date").val() && $("#manager").val() && phone
+                && $("#email").val() && $("#address").val() && $("#address_number").val() && cep && $("#neighborhood").val() && $("#state").val() && $("#city").val())) {
+                // remove mascara
+                //cnpj = cnpj.replace(/[^\d]+/g, '');
+                //phone = phone.replace(/[^\d]+/g, '');
+                //cep = cep.replace(/[^\d]+/g, '');
+
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true,
+                    onOpen: (toast) => {
+                        toast.addEventListener('mouseenter', Swal.stopTimer);
+                        toast.addEventListener('mouseleave', Swal.resumeTimer);
+                    }
+                });
+
+                Toast.fire({
+                    icon: 'success',
+                    title: 'Cliente alterado'
+                });
+            } else {
+                $(".error").show();
+            }
+        });
+    });
+
+    function getCNPJ() {
+        var cnpj = $("#cnpj").val().replace(/[^\d]+/g, '');
+        if (cnpj.length === 14) {
+            $.ajax({
+                type: "GET",
+                url: "https://www.receitaws.com.br/v1/cnpj/" + cnpj,
+                dataType: 'jsonp',
+                error: function () {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Houve um problema de comunicação'
+                    });
+                }
+            }).done(function (result) {
+                if (result.status === "ERROR") {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: result.message
+                    });
+                } else {
+                    $("#company_name").val(textCapitalize(result.nome));
+                    $("#fantasy_name").val(textCapitalize(result.fantasia));
+                    $("#foundation_date").val(dateToEN(result.abertura));
+                    $("#manager").val(textCapitalize(result.qsa[0].nome));
+                    $("#phone").val(result.telefone.substring(0, 14));
+                    $("#email").val(result.email);
+                    $("#address").val(textCapitalize(result.logradouro));
+                    $("#address_number").val(result.numero);
+                    $("#complement").val(textCapitalize(result.complemento));
+                    $("#cep").val(result.cep.split(".").join(""));
+                    $("#neighborhood").val(textCapitalize(result.bairro));
+                    $("#state").val(result.uf);
+                    $("#city").val(textCapitalize(result.municipio));
+
+                    if (isEmpty($("#cep").val())) {
+                        getCEP();
+                    }
+                }
+            });
+        }
+    }
+
+    function getCEP() {
+        var cep = $("#cep").val();
+        if (cep.length === 9) {
+            $.ajax({
+                type: "GET",
+                url: "https://viacep.com.br/ws/" + cep + "/json/",
+                dataType: "json",
+                error: function () {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Houve um problema de comunicação'
+                    });
+                }
+            }).done(function (result) {
+                if (result.erro) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'O CEP informado não foi encontrado...'
+                    });
+                } else {
+                    $("#address").val(textCapitalize(result.logradouro));
+                    $("#complement").val(textCapitalize(result.complemento));
+                    $("#neighborhood").val(textCapitalize(result.bairro));
+                    $("#state").val(result.uf);
+                    $("#city").val(textCapitalize(result.localidade));
+                }
+            });
+        }
+    }
+
+    function isValid() {
+        if (!isEmpty($("#company_name").val() && $("#fantasy_name").val() && $("#foundation_date").val() && $("#manager").val() && $("#email").val()
+            && $("#address").val() && $("#address_number").val() && $("#neighborhood").val() && $("#state").val() && $("#city").val())
+            && $("#cnpj").val().length === 18 && $("#phone").val().length === 14 && $("#cep").val().length === 9) {
+            $(".error").show();
+        }
+    }
+</script>
